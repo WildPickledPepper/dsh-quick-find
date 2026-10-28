@@ -13,9 +13,7 @@ client-side plugin.
 ## Install
 
 ```sh
-dsh plugin --profile <profile> add dsh-quick-find
-# or from GitHub
-dsh plugin --profile <profile> add github:<owner>/dsh-quick-find
+dsh plugin --profile <profile> add github:WildPickledPepper/dsh-quick-find
 ```
 
 Then restart DeepSeek Harness (the host half is a no-op, but the client module

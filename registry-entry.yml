@@ -1,5 +1,5 @@
-url: https://github.com/<your-github-user>/dsh-quick-find
-name: <your-github-user>/dsh-quick-find
+url: https://github.com/WildPickledPepper/dsh-quick-find
+name: WildPickledPepper/dsh-quick-find
 category: session
 description:
   en: Ctrl+F search inside the open conversation — highlights every hit, shows a hit counter and jumps between matches with Enter / Shift+Enter.
