@@ -1,0 +1,4 @@
+# dsh-quick-find bundle layer: mounts the plugin row.
+- insert:
+    - id: session-find
+      name: 'dsh-quick-find'

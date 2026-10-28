@@ -1,0 +1,42 @@
+{
+  "name": "dsh-quick-find",
+  "version": "0.1.0",
+  "description": "Ctrl+F in-conversation search for DeepSeek Harness: highlight every hit in the open session and jump between them.",
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "dsh",
+    "search",
+    "find",
+    "ctrl-f",
+    "ui"
+  ],
+  "license": "MIT",
+  "author": "your-name",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": []
+    }
+  }
+}

@@ -1,0 +1,6 @@
+url: https://github.com/<your-github-user>/dsh-quick-find
+name: <your-github-user>/dsh-quick-find
+category: session
+description:
+  en: Ctrl+F search inside the open conversation — highlights every hit, shows a hit counter and jumps between matches with Enter / Shift+Enter.
+  zh: 会话内 Ctrl+F 查找：高亮所有命中、显示计数，用 Enter / Shift+Enter 在命中之间跳转。
