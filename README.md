@@ -1,14 +1,17 @@
 # dsh-quick-find
 
-Ctrl+F in-conversation search for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness).
+Ctrl+F search for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) — including the parts of the conversation Harness has not rendered yet.
 
-Press **Ctrl+F** (Cmd+F on macOS) inside an open conversation and a small find bar
-appears in the top-right corner: it highlights every hit in the rendered
-conversation, shows `3 / 12`, and jumps between hits with **Enter** /
-**Shift+Enter** (or the ↑ ↓ buttons). **Esc** closes it.
+Press **Ctrl+F** (Cmd+F on macOS) inside an open conversation. A find bar appears in
+the top-right corner and searches twice:
 
-No API keys, no host-side daemon, no session data is touched — this is a pure
-client-side plugin.
+1. **Rendered messages** — instant, every hit is highlighted, `页内 3/12`, jump with
+   **Enter** / **Shift+Enter** (or ↑ ↓).
+2. **The whole session log on the host** — `GET /session-find/search?q=…&session=…`
+   decompresses `session.v4.jsonl.zstd` and lists hits with role + snippet, so long
+   histories that Harness virtualized away are still searchable.
+
+`Esc` closes the bar.
 
 ## Install
 
@@ -16,25 +19,27 @@ client-side plugin.
 dsh plugin --profile <profile> add github:WildPickledPepper/dsh-quick-find
 ```
 
-Then restart DeepSeek Harness (the host half is a no-op, but the client module
-list is composed at boot) and refresh the page.
+Restart DeepSeek Harness (the host half registers the search route at boot), then
+refresh the page.
 
 ## Notes
 
 - Highlighting uses the CSS Custom Highlight API (`CSS.highlights` + a
-  `::highlight()` rule), so no DOM mutation happens and React re-renders cannot
-  fight the highlights.
-- Only **mounted** messages can be matched. Harness virtualizes long histories;
-  scroll the older turns into view first if you need to search them.
-- The search box is inserted as a plain DOM node, so it works in the desktop app
-  and in `dsh web`.
-- If nothing is found, the counter says `无结果`.
+  `::highlight()` rule): no DOM mutation, so React re-renders cannot fight it.
+- History hits that are **not** on screen yet cannot be scrolled to. Clicking one
+  tells you which turn it is; scroll the older turns in first, then click again.
+- The session log is stored as a sequence of independent zstd frames (one per
+  append). Node's decompressor stops after the first frame, so the host half finds
+  frames by their magic number and decodes them one by one.
+- Search covers user, assistant and tool-result text. Reasoning blocks are skipped
+  by default so the result list stays readable.
+- The plugin imports nothing from `@deepseek-ai/*`, which keeps it loadable when
+  the host ships its packages inside `app.asar`.
 
 ## Compatibility
 
-Tested on DeepSeek Harness `0.2.1-rc.3` (desktop). The plugin imports nothing
-from `@deepseek-ai/*`, which is what keeps it loadable when the host ships its
-packages inside `app.asar`.
+Tested on DeepSeek Harness `0.2.1-rc.3` (desktop). Needs Node 22.15+/24 for
+`zlib.zstdDecompressSync`.
 
 ## License
 
